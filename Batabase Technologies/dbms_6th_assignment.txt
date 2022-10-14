@@ -1,0 +1,60 @@
+
+use demo;
+drop procedure if exists GetDepartment;
+DELIMITER //
+create procedure GetDepartment()
+BEGIN
+select * from Department;
+END//
+
+DELIMITER ;
+Call GetDepartment();
+
+
+
+
+
+
+use demo;
+drop procedure if exists GetDisplayed;
+
+delimiter //
+create procedure GetDisplayed(
+	in id int,
+	out employee_name varchar(20),
+	out department_name varchar(20),
+	out department_location varchar(20))
+	begin
+		select employee.Emp_id,employee.emp_name,department.dep_name,department.dep_location 
+        into id,employee_name,department_name,department_location
+		from department inner join employee
+		on department.Dep_id = employee.dept_id and employee.Emp_id = id;
+	end //
+    set @id=2;
+	delimiter ;
+	call GetDisplayed(2,@employee_name,@department_name, @department_location);
+select @id,@employee_name,@department_name ,@department_location ;
+ 
+
+
+use demo;
+DELIMITER //
+drop procedure if exists copye;
+create procedure copye()
+BEGIN
+ declare c int;
+ declare i int;
+ set i=0;
+ set c=0;
+ select count(*) from employee into c;
+ while (i<c) do
+   insert into emp1(Emp_id,emp_name,job_name,salary,commission,dept_id) select * from employee limit i,1;
+   set i=i+1;
+ END WHILE;
+ END //
+ DELIMITER ;
+ 
+ call copye();
+ 
+ select * from emp1;
+
