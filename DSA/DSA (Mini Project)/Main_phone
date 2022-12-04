@@ -10,7 +10,6 @@ import java.io.IOException;
 
 public class Main_phone {
 	private static Scanner scn;
-	public static Stack<Person> recent = new Stack<Person>();
 	public static ArrayList<Person> recentList = new ArrayList<Person>();
 	public static ArrayList<Person> phone;
 	public static ArrayList<Person> fav = new ArrayList<Person>();
@@ -80,7 +79,7 @@ public class Main_phone {
 								
 								int s1 = scn.nextInt();
 								switch(s1) {
-									case 1 : DisplayHistory(); break;
+									case 1 : DisplayRecent(); break;
 									case 2 : DeleteRecent(); break;
 									case 3 : flag1 = false; break;
 									default : System.out.println("Enter proper input"); break;
@@ -124,8 +123,9 @@ public class Main_phone {
 		String number1 = scn.next();
 		System.out.println("Enter the Email Address");
 		String email = scn.next();
+		scn.nextLine();
 		System.out.println("Enter the Address");
-		String address = scn.next();
+		String address = scn.nextLine();
 		phone.add(new Person(first_name,last_name,number1,email,address) );	
 	}
 	public static void Display() {
@@ -246,8 +246,9 @@ public class Main_phone {
 				String number1 = scn.next();
 				System.out.println("Enter the email for update");
 				String email = scn.next();
+				scn.nextLine();
 				System.out.println("Enter the address for update");
-				String address = scn.next();
+				String address = scn.nextLine();
 				p.setnumber(number1);
 				p.setemail(email);
 				p.setaddress(address);
@@ -267,7 +268,6 @@ public class Main_phone {
 		for(Person f:phone) {
 			if(f.getfirst_name().contains(firstname) && f.getlast_name().contains(lastname)) {
 				b=true;
-				recent.push(f);
 				recentList.add(f);
 				break;
 			}
@@ -283,20 +283,14 @@ public class Main_phone {
 	}
 	
 	public static void DisplayRecent() {
-		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
-		while(!recent.empty()) {
-			System.out.println(recent.peek());
-			recent.pop();
-		}
-	}
-	
-	public static void DisplayHistory() {
 		Collections.reverse(recentList);
 		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
 		for(Person p:recentList) {
 			System.out.println(p);
 		}
 	}
+	
+
 	
 	
 
@@ -349,8 +343,6 @@ class Person{
 	public String getaddress() {
 		return address;
 	}
-	
-	
 	
 	@Override
 	public String toString() {	
