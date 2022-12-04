@@ -10,7 +10,6 @@ import java.io.IOException;
 
 public class Main_phone {
 	private static Scanner scn;
-	
 	public static Stack<Person> recent = new Stack<Person>();
 	public static ArrayList<Person> recentList = new ArrayList<Person>();
 	public static ArrayList<Person> phone;
@@ -81,7 +80,7 @@ public class Main_phone {
 								
 								int s1 = scn.nextInt();
 								switch(s1) {
-									case 1 : DisplayRecent(); break;
+									case 1 : DisplayHistory(); break;
 									case 2 : DeleteRecent(); break;
 									case 3 : flag1 = false; break;
 									default : System.out.println("Enter proper input"); break;
@@ -269,6 +268,7 @@ public class Main_phone {
 			if(f.getfirst_name().contains(firstname) && f.getlast_name().contains(lastname)) {
 				b=true;
 				recent.push(f);
+				recentList.add(f);
 				break;
 			}
 		}
@@ -286,13 +286,12 @@ public class Main_phone {
 		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
 		while(!recent.empty()) {
 			System.out.println(recent.peek());
-			recentList.add(recent.pop());
+			recent.pop();
 		}
 	}
 	
 	public static void DisplayHistory() {
-		Collections.sort(recentList,(p1, p2) -> p1.getfirst_name().compareTo(p2.getfirst_name()));
-		Collections.sort(recentList,Collections.reverseOrder());
+		Collections.reverse(recentList);
 		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
 		for(Person p:recentList) {
 			System.out.println(p);
@@ -351,10 +350,12 @@ class Person{
 		return address;
 	}
 	
+	
+	
 	@Override
 	public String toString() {	
 		return ("| "+first_name+" "+last_name+" || "+number+" || "+email+" || "+address+"| ");
 	}
 }
-	
+
 
