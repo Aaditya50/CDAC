@@ -1,22 +1,20 @@
-package phone;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.Stack;
 import java.io.IOException;
 
 
 
 public class Main_phone {
 	private static Scanner scn;
-	public static ArrayList<Person> recentList = new ArrayList<Person>();
-	public static ArrayList<Person> phone;
-	public static ArrayList<Person> fav = new ArrayList<Person>();
+	public static ArrayList<Persons> recentList = new ArrayList<Persons>();
+	public static ArrayList<Persons> phone;
+	public static ArrayList<Persons> fav = new ArrayList<Persons>();
 	public static void main(String[] args) throws IOException {
 
 		scn = new Scanner(System.in);
-		phone = new ArrayList<Person>();
+		phone = new ArrayList<Persons>();
 		
 		boolean yes = true;
 		while(yes) {
@@ -121,17 +119,26 @@ public class Main_phone {
 		String last_name = scn.next();
 		System.out.println("Enter the Phone Number");
 		String number1 = scn.next();
+		boolean no = true;
+		while(no) {
+			if(number1.length()>12) {
+				System.out.println("Enter the number less than 12 digit");
+				number1 = scn.next();
+			}else {
+				no = false;
+			}
+		}
 		System.out.println("Enter the Email Address");
 		String email = scn.next();
 		scn.nextLine();
 		System.out.println("Enter the Address");
 		String address = scn.nextLine();
-		phone.add(new Person(first_name,last_name,number1,email,address) );	
+		phone.add(new Persons(first_name,last_name,number1,email,address) );	
 	}
 	public static void Display() {
 		Collections.sort(phone, (p1, p2) -> p1.getfirst_name().compareTo(p2.getfirst_name()));
 		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
-		for(Person p:phone) {
+		for(Persons p:phone) {
 			System.out.println(p);
 		}	
 	}
@@ -139,7 +146,7 @@ public class Main_phone {
 		Collections.sort(fav, (p1, p2) -> p1.getfirst_name().compareTo(p2.getfirst_name()));
 		System.out.println(" :: Favorite Contacts :: ");
 		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
-		for(Person f:fav) {
+		for(Persons f:fav) {
 			System.out.println(f);
 		}	
 	}
@@ -149,8 +156,8 @@ public class Main_phone {
 		String firstname = scn.next();
 		String lastname = scn.next();
 		boolean b = false;
-		Person x = new Person();
-		for(Person p:phone) {
+		Persons x = new Persons();
+		for(Persons p:phone) {
 			if(p.getfirst_name().contains(firstname) && p.getlast_name().contains(lastname)) {
 				b=true;
 				x=p;
@@ -169,8 +176,8 @@ public class Main_phone {
 		String firstname = scn.next();
 		String lastname = scn.next();
 		boolean b = false;
-		Person x = new Person();
-		for(Person f:fav) {
+		Persons x = new Persons();
+		for(Persons f:fav) {
 			if(f.getfirst_name().contains(firstname) && f.getlast_name().contains(lastname)) {
 				b=true;
 				x=f;
@@ -189,8 +196,8 @@ public class Main_phone {
 		String firstname = scn.next();
 		String lastname = scn.next();
 		boolean b = false;
-		Person x = new Person();
-		for(Person f:recentList) {
+		Persons x = new Persons();
+		for(Persons f:recentList) {
 			if(f.getfirst_name().contains(firstname) && f.getlast_name().contains(lastname)) {
 				b=true;
 				x=f;
@@ -208,7 +215,7 @@ public class Main_phone {
 		System.out.println("Enter the firstname to find");
 		String name = scn.next();
 		boolean b = true;
-		for(Person p:phone) {
+		for(Persons p:phone) {
 			if(p.getfirst_name().contains(name)) {
 				b=false;
 				System.out.println(p);
@@ -223,7 +230,7 @@ public class Main_phone {
 		System.out.println("Enter the firstname to add into favourite");
 		String name = scn.next();
 		boolean v = true;
-		for(Person p:phone) {
+		for(Persons p:phone) {
 			if(p.getfirst_name().contains(name)) {
 				v=false;
 				fav.add(p);
@@ -236,22 +243,70 @@ public class Main_phone {
 	}
 	
 	public static void Update_Details() {
-		System.out.println("Enter the firstname to update the details");
-		String name = scn.next();
+		System.out.println("Enter the firstname and lastname to update the details");
+		String firstname = scn.next();
+		String lastname = scn.next();
 		boolean v = true;
-		for(Person p:phone) {
-			if(p.getfirst_name().contains(name)) {
+		for(Persons p:phone) {
+			if(p.getfirst_name().contains(firstname) && p.getlast_name().contains(lastname)) {
 				v=false;
-				System.out.println("Enter the number for update");
-				String number1 = scn.next();
-				System.out.println("Enter the email for update");
-				String email = scn.next();
-				scn.nextLine();
-				System.out.println("Enter the address for update");
-				String address = scn.nextLine();
-				p.setnumber(number1);
-				p.setemail(email);
-				p.setaddress(address);
+				boolean options = true;
+				while(options) {
+					System.out.println("1.Update Number");
+					System.out.println("2.Update Email");
+					System.out.println("3.Update Address");
+					System.out.println("4.Update All");
+					System.out.println("5.Exit");
+					int d = scn.nextInt();
+					switch(d) {
+						case 1:	System.out.println("Enter the number for update");
+								String number1 = scn.next();
+								boolean no = true;
+								while(no) {
+									if(number1.length()>12) {
+										System.out.println("Enter the number less than 12 digit ");
+										number1 = scn.next();
+									}else {
+										no = false;
+									}
+								}
+								p.setnumber(number1);
+								break;
+						
+						case 2: System.out.println("Enter the email for update");
+								String email = scn.next();
+								p.setemail(email);
+								break;
+						case 3: scn.nextLine();
+								System.out.println("Enter the address for update");
+								String address = scn.nextLine();
+								p.setaddress(address);
+								break;
+						case 4: System.out.println("Enter the number for update");
+								String numbers = scn.next();
+								boolean nos = true;
+								while(nos) {
+									if(numbers.length()>12) {
+										System.out.println("Enter the number less than 12 digit ");
+										numbers = scn.next();
+									}else {
+										nos = false;
+									}
+								}
+								System.out.println("Enter the email for update");
+								String emails = scn.next();
+								scn.nextLine();
+								System.out.println("Enter the address for update");
+								String address1 = scn.nextLine();
+								p.setnumber(numbers);
+								p.setemail(emails);
+								p.setaddress(address1);
+								break;
+						case 5: options = false; break;		
+					}
+					
+				}
+				
 			}
 		}
 		if(v) {
@@ -265,7 +320,7 @@ public class Main_phone {
 		String firstname = scn.next();
 		String lastname = scn.next();
 		boolean b = false;
-		for(Person f:phone) {
+		for(Persons f:phone) {
 			if(f.getfirst_name().contains(firstname) && f.getlast_name().contains(lastname)) {
 				b=true;
 				recentList.add(f);
@@ -285,27 +340,24 @@ public class Main_phone {
 	public static void DisplayRecent() {
 		Collections.reverse(recentList);
 		System.out.println("|-----Name-----|" +"|---Number---|"+"|----Email---| "+"|---Address---| ");
-		for(Person p:recentList) {
+		for(Persons p:recentList) {
 			System.out.println(p);
 		}
 	}
 	
 
-	
-	
-
 }
-class Person{
+class Persons{
 	
 	private String first_name;
 	private String last_name;
-	private String number;
+	private String number ;
 	private String email;
 	private String address;
 	
-	public Person() {}
+	public Persons() {}
 	
-	public Person(String first_name,String last_name,String number,String email,String address) {
+	public Persons(String first_name,String last_name,String number,String email,String address) {
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.number = number;
