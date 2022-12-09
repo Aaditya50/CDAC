@@ -227,17 +227,18 @@ public class Main_phone {
 	}
 	
 	public static void Add_fav() {
-		System.out.println("Enter the firstname to add into favourite");
-		String name = scn.next();
+		System.out.println("Enter the firstname and lastname to add into favourite");
+		String firstname = scn.next();
+		String lastname = scn.next();
 		boolean v = true;
 		for(Persons p:phone) {
-			if(p.getfirst_name().contains(name)) {
+			if(p.getfirst_name().contains(firstname) && p.getlast_name().contains(lastname) ) {
 				v=false;
 				fav.add(p);
 			}
 		}
 		if(v) {
-			System.out.println("Reccord Not found");
+			System.out.println("Record Not found");
 		}
 		
 	}
@@ -401,5 +402,4 @@ class Persons{
 		return ("| "+first_name+" "+last_name+" || "+number+" || "+email+" || "+address+"| ");
 	}
 }
-
 
